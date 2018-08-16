@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>lodash - 測試</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.core.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.fp.js"></script> -->
+    <script src='https://cdn.jsdelivr.net/g/lodash@4(lodash.min.js+lodash.fp.min.js)'></script>
+    <script>
+        // Loading `lodash.fp.js` converts `_` to its fp variant.
+
+        // _.defaults({ 'a': 2, 'b': 2 })({ 'a': 1 });
+        // // ➜ { 'a': 1, 'b': 2 }
+        
+        // Use `noConflict` to restore the pre-fp variant.
+        var fp = _.noConflict();
+        
+        // _.defaults({ 'a': 1 }, { 'a': 2, 'b': 2 });
+        // // ➜ { 'a': 1, 'b': 2 }
+
+        // fp.defaults({ 'a': 2, 'b': 2 })({ 'a': 1 });
+        // // ➜ { 'a': 1, 'b': 2 }
+    </script>
+    <style>
+        .border-line {
+            border: 2px solid black;
+            padding: 1em;
+        }
+        .container.custom-container-width { 
+            max-width: 1600px;   /* 自訂container寬度 */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container custom-container-width">
+        <div class="row">
+            <div class="col-2" style="background-color: red">
+                111
+            </div>
+            <div class="col-8" style="background-color: green">
+                222
+            </div>
+            <div class="col-2" style="background-color: blue">
+                333
+            </div>
+        </div>
+    </div>
+
+    <div class="container custom-container-width" id="myApp">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <h1 style="color:blue;">Lo-Dash 測試</h1>
+                <div id="fp.filter測試" class="border-line">
+                    <h3>fp.filter測試</h3>
+                    <code>
+                        var arr =  [ <br>
+                        &nbsp;&nbsp;{ 'name' : 'Roger' , 'age' : 18 } ,<br> 
+                        &nbsp;&nbsp;{ 'name' : 'Kelly' , 'age' : 50 } ,<br>
+                        &nbsp;&nbsp;{ 'name' : 'Linda' , 'age' : 23 } ,<br>
+                        &nbsp;&nbsp;{ 'name' : 'Linda' , 'age' : 45 } ,<br>
+                        ];
+                        
+                        <hr>
+                        // 如果只是要回傳某個值，可以省略 return <br>
+                        fp.filter( (x) => x.age > 30 )(arr); <br> 
+                        // 回傳 { 'name' : 'Kelly' , 'age' : 50 } { 'name' : 'Linda' , 'age' : 45 } 
+                        <hr>
+                        // 回傳 { 'name' : 'Linda' , 'age' : 23 }<br>
+                        fp.filter( (x) => { <br>
+                        &nbsp;&nbsp;&nbsp;return  x.name.startsWith('L') && x['age'] < 25; <br>
+                        })(arr); 
+                    </code>
+                </div>
+                <div id="fp.remove測試" class="border-line">
+                    <h3>fp.remove測試</h3>
+                    <code>
+                        var arr =  [ <br>
+                        &nbsp;&nbsp;{ 'name' : 'Roger' , 'age' : 18 } ,<br> 
+                        &nbsp;&nbsp;{ 'name' : 'Kelly' , 'age' : 50 } ,<br>
+                        &nbsp;&nbsp;{ 'name' : 'Linda' , 'age' : 23 } ,<br>
+                        &nbsp;&nbsp;{ 'name' : 'Linda' , 'age' : 45 } ,<br>
+                        ];
+                        
+                        <hr>
+                        // 如果只是要回傳某個值，可以省略 return <br>
+                        fp.remove( (x) => x.age > 30 )(arr); <br> 
+                        // 回傳 { 'name' : 'Roger' , 'age' : 18 } { 'name' : 'Linda' , 'age' : 23 } 
+                        <hr>
+                        // 移除 age < 25 且 姓名由 'L'打頭的 <br>
+                        // 回傳： <br>
+                        // { 'name' : 'Roger' , 'age' : 18 } <br>
+                        // { 'name' : 'Kelly' , 'age' : 50 } <br>
+                        // { 'name' : 'Linda' , 'age' : 45 } <br>
+                        fp.remove( (x) => { <br>
+                        &nbsp;&nbsp;&nbsp;return  x.name.startsWith('L') && x['age'] < 25; <br>
+                        })(arr); 
+                    </code>
+                </div>
+                <div id="fp.map測試" class="border-line">
+                    <h3>fp.map測試</h3>
+                    <code>
+                        var arr =  [ <br> 
+                        &nbsp;&nbsp;{ 'name' : 'Roger' , 'age' : 18 } ,<br> 
+                        &nbsp;&nbsp;{ 'name' : 'Kelly' , 'age' : 50 } ,<br>
+                        &nbsp;&nbsp;{ 'name' : 'Linda' , 'age' : 23 } ,<br>
+                        &nbsp;&nbsp;{ 'name' : 'Linda' , 'age' : 45 } ,<br>
+                        ];
+                        
+                        <hr>
+                        fp.map( x => x.age )(arr) <br>
+                        // 回傳 [18, 50, 23, 45]
+                        <hr>
+                        fp.map( x => x.name )(arr) <br>
+                        // 回傳 ["Roger", "Kelly", "Linda", "Linda"]
+                        <hr>
+                        fp.map( x => x.name + '@@@' )(arr)<br>
+                        // 回傳 ["Roger@@@", "Kelly@@@", "Linda@@@", "Linda@@@"]
+                    </code>
+                </div>
+                <div id="fp.forEach測試" class="border-line">
+                    <h3>fp.forEach測試</h3>
+                    <code>
+                        var arr =  [ <br> 
+                        &nbsp;&nbsp;{ 'name' : 'Roger' , 'age' : 18 } ,<br> 
+                        &nbsp;&nbsp;{ 'name' : 'Kelly' , 'age' : 50 } ,<br>
+                        &nbsp;&nbsp;{ 'name' : 'Linda' , 'age' : 23 } ,<br>
+                        &nbsp;&nbsp;{ 'name' : 'Linda' , 'age' : 45 } ,<br>
+                        ];
+                        <hr>
+                        fp.forEach( (x) => {     <br> 
+                        &nbsp;&nbsp;console.log( x.age );<br> 
+                        &nbsp;&nbsp;return x;            <br>        
+                        } )(arr);
+                        <hr style="border-top: dotted 3px;" />
+                        var empData = { 'name' : 'Roger' , 'age' : 18 , 'salary' : 22000}; <br><br>
+                        _.forEach( empData , function(value, key) {<br>
+                        &nbsp;&nbsp;console.log('key >>> %s , val >>> %s' , key , value); <br>
+                        });<br><br>
+
+                        // 輸出<br>
+                        key >>> name , val >>> Roger<br>
+                        key >>> age , val >>> 18<br>
+                        key >>> salary , val >>> 22000<br>
+                    </code>
+                </div>
+                <div id="fp.includes測試" class="border-line">
+                    <h3>fp.includes測試</h3>
+                    <code>
+                        var arr = [11, 22, 33, 44, 55]; <br>
+                        fp.includes(11)(arr); // true <br>
+                        fp.includes(77)(arr); // false <br>
+
+                        <hr style="border-top: dotted 3px;" />
+
+                        var arr = { 'user': 'Fred',   'age': 48 , 'level' :  3 };<br>
+                        fp.includes( 'Fred' )(arr); // true<br>
+                        fp.includes( 'FredXXX' )(arr); // false<br>
+
+                        <hr style="border-top: dotted 3px;" />
+                        var arr =  [ <br> 
+                        &nbsp;&nbsp;{ 'name' : 'Roger' , 'age' : 18 } ,<br> 
+                        &nbsp;&nbsp;{ 'name' : 'Kelly' , 'age' : 50 } ,<br>
+                        &nbsp;&nbsp;{ 'name' : 'Linda' , 'age' : 23 } ,<br>
+                        &nbsp;&nbsp;{ 'name' : 'Linda' , 'age' : 45 } ,<br>
+                        ];
+                        <br><br>
+                        // 組合應用 forEach + includes <br>
+                        fp.forEach( (item) => { <br>
+                        &nbsp;&nbsp;let rtn = fp.includes('Roger')(item); <br>
+                        &nbsp;&nbsp;console.log(rtn);<br>
+                        } )(arr);<br>
+                        // 輸出：  <br>
+                        //   true  <br>
+                        //   false <br>
+                        //   false <br>
+                        //   false <br>
+                    </code>
+                </div>
+                <div id="fp.orderBy測試" class="border-line">
+                    <h3>fp.orderBy測試</h3>
+                    <code>
+                        var users = [ <br>
+                        &nbsp;&nbsp;{ 'user': 'Fred',   'age': 48 , 'level' :  3 },<br>
+                        &nbsp;&nbsp;{ 'user': 'Barney', 'age': 34 , 'level' : 23 },<br>
+                        &nbsp;&nbsp;{ 'user': 'Fred',   'age': 42 , 'level' : 19 },<br>
+                        &nbsp;&nbsp;{ 'user': 'Barney', 'age': 36 , 'level' : 10 },<br>
+                       ];
+                        
+                        <hr>
+                        fp.orderBy( ['age'] , ['desc'] )(users); <br>
+                        // 回傳 : <br>
+                            {user: "fred"  , age: 48 , level:  3}<br>
+                            {user: "fred"  , age: 42 , level: 19}<br>
+                            {user: "barney", age: 36 , level: 10}<br>
+                            {user: "barney", age: 34 , level: 23}<br>
+                        <hr>
+                        fp.orderBy( ['level'], [ 'asc' ] )(users) <br>
+                        // 回傳 : <br>
+                            {user: "Fred", age: 48, level: 3}<br>
+                            {user: "Barney", age: 36, level: 10}<br>
+                            {user: "Fred", age: 42, level: 19}<br>
+                            {user: "Barney", age: 34, level: 23}<br>
+                        <hr>
+                        // 先以 user 升冪排，再以level降冪<br>
+                        fp.orderBy( ['user', 'level'], [ 'asc', 'desc' ] )(users) <br>
+                        // 回傳 : <br>
+                            {user: "Barney", age: 34, level: 23}<br>
+                            {user: "Barney", age: 36, level: 10}<br>
+                            {user: "Fred", age: 42, level: 19}<br>
+                            {user: "Fred", age: 48, level: 3}<br>
+                    </code>
+                </div>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+    <div class="container" style="margin-top:3cm;">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <h1 style="color:black;font-family:Monospace">參考資料</h1>
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">說明</th>
+                        <th scope="col">URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>iT邦幫忙 - 相見恨晚 - Lo-Dash</td>
+                            <td>https://ithelp.ithome.com.tw/articles/10157832</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Lo-Dash CDN</td>
+                            <td>https://cdnjs.com/libraries/lodash.js/</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>充分利用 lodash 讓你的程式碼更易讀及維護</td>
+                            <td>https://jigsawye.com/2017/09/04/make-good-use-of-lodash/</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>Lodash入门介绍</td>
+                            <td>https://www.w3cplus.com/javascript/lodash-intro.html</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>github - FP-Guide</td>
+                            <td>https://github.com/lodash/lodash/wiki/FP-Guide</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>lodash/fp - API</td>
+                            <td>https://gist.github.com/jfmengels/6b973b69c491375117dc</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6</th>
+                            <td>lodash中文文档</td>
+                            <td>http://lodash.think2011.net/flatMap</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">7</th>
+                            <td>JS 箭頭函式</td>
+                            <td>https://pjchender.blogspot.com/2017/01/es6-arrow-function.html</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+
+    <script>
+
+
+    </script>
+
+</body>
+
+</html>
